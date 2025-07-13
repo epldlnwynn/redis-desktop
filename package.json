@@ -1,0 +1,75 @@
+{
+    "name": "redis-devhub",
+    "version": "1.0.0",
+    "productName": "Redis Devhub",
+    "description": "A simple Redis data management tool",
+    "private": true,
+    "scripts": {
+        "server": "export NODE_ENV=test && node server",
+        "start": "electron .",
+        "build": "export NODE_ENV=prod && rm -rf dist && electron-builder build"
+    },
+    "gitHooks": {
+        "pre-commit": "lint-staged"
+    },
+    "lint-staged": {
+        "*.{js,jsx,less,md,json}": [
+            "prettier --write"
+        ],
+        "*.ts?(x)": [
+            "prettier --parser=typescript --write"
+        ]
+    },
+    "author": {
+        "name": "Devhub.vip Ltd.",
+        "url": "https://github.com/epldlnwynn/redis-devhub"
+    },
+    "main": "main.js",
+    "engines": {
+        "node": ">=18.0.0"
+    },
+    "dependencies": {
+        "body-parser": "^2.2.0",
+        "cors": "^2.8.5",
+        "crypto-browserify": "^3.12.0",
+        "crypto-js": "^4.1.1",
+        "electron-log": "^5.4.1",
+        "express": "^5.1.0",
+        "redis": "^5.5.6",
+        "tunnel-ssh": "^5.2.0"
+    },
+    "devDependencies": {
+        "@types/crypto-js": "^4.2.2",
+        "cross-env": "^7.0.3",
+        "electron": "^23.3.13",
+        "electron-builder": "^26.0.12",
+        "lint-staged": "^10.0.7",
+        "prettier": "^2.2.0"
+    },
+    "build": {
+        "productName": "Redis Devhub",
+        "appId": "vip.devhub.redisapp",
+        "files": [
+            "./public",
+            "./assets",
+            "./lib",
+            "./handles",
+            "./main.js",
+            "./server.js"
+        ],
+        "mac": {
+            "target": "dmg",
+            "icon": "assets/logo.icns"
+        },
+        "directories": {
+            "output": "dist"
+        },
+        "nsis": {
+            "oneClick": false,
+            "perMachine": true,
+            "allowElevation": false,
+            "allowToChangeInstallationDirectory": true,
+            "deleteAppDataOnUninstall": true
+        }
+    }
+}
