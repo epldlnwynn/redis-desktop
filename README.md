@@ -2,7 +2,7 @@
 
 ---
 
-> 打包前需要生成 redis-web-module UI模块
+> 打包前需要生成 [redis-web-module](https://github.com/epldlnwynn/redis-web-module) UI模块
 
 ## Getting Started
 
