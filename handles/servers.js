@@ -26,7 +26,7 @@ function buildRedisConnection(server) {
 
     if (type && type === "tunnel" && tunnel) {
         sshConfig.host = tunnel.host
-        sshConfig.port = tunnel.port
+        sshConfig.port = tunnel.port || 22
         sshConfig.username = tunnel.username
         sshConfig.password = tunnel.password
         sshConfig.privateKey = tunnel.privateKey
