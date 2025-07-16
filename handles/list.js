@@ -33,11 +33,11 @@ const handleList = async (req,res) => {
         const info = {full:name,ttl}, ar = name.split(server?.advancedSettings?.namespaceSeparator || ":")
         info.name = ar.reverse()[0];
 
-        info.size = await redis.lLen(name)
+        info.count = await redis.lLen(name)
         res.stream("info", info)
 
         let offset = 0;
-        while (offset < info.size) {
+        while (offset < info.count) {
             const list = await redis.lRange(name, offset, offset += 9)
             res.stream(list)
             ++offset

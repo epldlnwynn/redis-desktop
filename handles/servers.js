@@ -62,8 +62,8 @@ const handleTestConnection = async (req, res) => {
 
 const handleSaveConnection = (req, res) => {
     const server = req.body
-
     const serverList = readFileToJSON(SERVER_FILE, [])
+
     server.id = uuid()
     serverList.unshift(server)
     writeFile(SERVER_FILE, serverList)

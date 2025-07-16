@@ -43,7 +43,7 @@ const handleHash = async (req, res) => {
         const info = {full:name,ttl}, ar = name.split(server?.advancedSettings?.namespaceSeparator || ":")
         info.name = ar.reverse()[0];
 
-        info.size = await redis.hLen(name)
+        info.count = await redis.hLen(name)
         res.stream("info", info)
 
         let cursor = '0'

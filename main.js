@@ -1,4 +1,4 @@
-const { app, ipcMain, BrowserWindow, Menu, screen } = require("electron");
+const { app, ipcMain, BrowserWindow, Menu, screen, shell } = require("electron");
 const logger = require("./lib/logger")
 const server = require("./server")
 const { windowState } = require("./lib/utils");
@@ -77,3 +77,12 @@ app.on("window-all-closed", () => {
     }
 });
 
+
+app.on("web-contents-created", (e, webContents) => {
+    webContents.setWindowOpenHandler(info => {
+        logger.info("web-contents-created", info)
+        shell.openExternal(info.url)
+        return {action: "dey"}
+    })
+
+})

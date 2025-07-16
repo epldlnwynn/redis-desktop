@@ -27,7 +27,8 @@ const handleSSet = async (req,res) => {
         const ttl = await redis.ttl(name)
         const info = {full:name,ttl}, ar = name.split(server?.advancedSettings?.namespaceSeparator || ":")
         info.name = ar.reverse()[0];
-        info.size = await redis.sCard(name)
+
+        info.count = await redis.sCard(name)
         res.stream("info", info)
 
         for await (const members of redis.sScanIterator(name, {COUNT: 20})) {

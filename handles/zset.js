@@ -37,11 +37,11 @@ const handleZSet = async (req,res) => {
         const ttl = await redis.ttl(name)
         const info = {full:name,ttl}, ar = name.split(server?.advancedSettings?.namespaceSeparator || ":")
         info.name = ar.reverse()[0];
-        info.size = await redis.zCard(name)
+        info.count = await redis.zCard(name)
         res.stream("info", info)
 
         const list = []
-        const zRevRange = await redis.sendCommand(["ZREVRANGE", name, "0", info.size.toString(), "WITHSCORES"])
+        const zRevRange = await redis.sendCommand(["ZREVRANGE", name, "0", info.count.toString(), "WITHSCORES"])
         for (let i = 0; i < zRevRange.length; i += 2) {
             list.push({value:zRevRange[i], score:zRevRange[i + 1]})
         }
