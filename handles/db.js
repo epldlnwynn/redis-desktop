@@ -49,8 +49,15 @@ const handleInvoke = async (req, res) => {
     if (method === "expire")
         await redis.expire(D.key, D.value, D.mode)
 
-    if (method === "delete")
-        await redis.del(D.key)
+    if (method === "delete") {
+        if (D?.isGroup == true) {
+            const keys = await redis.keys(D.key.endsWith("*") ? D.key : (D.key + '*'))
+            for (const k of keys)
+                await redis.del(k)
+        } else {
+            await redis.del(D.key)
+        }
+    }
 
     if (method === "rename") {
         let {oldKey,key,force} = D

@@ -18,6 +18,7 @@ function registerRouter(app) {
     app.get(PREFIX + "list", svr.handleConnectionList)
     app.post(PREFIX + "test", svr.handleTestConnection)
     app.post(PREFIX + "save", svr.handleSaveConnection)
+    app.get(PREFIX + "delete/:id", svr.handleDeleteConnection)
 
 
     app.get(PREFIX + ":id", db.handleDb)
@@ -114,6 +115,14 @@ async function startServer() {
     app.use(async (err, req, res, next) => {
         console.log("Error:", req.url, err)
         logger.error(`Error:`, req.url, err)
+
+        const accept = req.header("accept")
+        if (accept == "text/event-stream") {
+            res.stream("error", err.message)
+            res.end()
+            return;
+        }
+
         res.json({
             message: err.message,
             code: 500,

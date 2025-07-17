@@ -76,6 +76,13 @@ const handleConnectionList = (req,res) => {
     res.json({data: serverList})
 }
 
+const handleDeleteConnection = (req,res) => {
+    const {id} = req.params, serverList = readFileToJSON(SERVER_FILE, [])
+    const newList = serverList.filter(s => s.id !== id)
+    writeFile(SERVER_FILE, newList)
+    res.json({})
+}
+
 const findServerById = (id) => {
     const [server] = readFileToJSON(SERVER_FILE, []).filter(s => s.id === id)
     return server
@@ -83,5 +90,5 @@ const findServerById = (id) => {
 
 module.exports = {
     buildRedisConnection, redisConnection, findServerById,
-    handleTestConnection, handleSaveConnection, handleConnectionList
+    handleTestConnection, handleSaveConnection, handleConnectionList, handleDeleteConnection
 }
