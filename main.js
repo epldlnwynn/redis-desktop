@@ -28,8 +28,25 @@ const createWindow = (url) => {
     });
 
 
-    const menu = Menu.buildFromTemplate([Menu.getApplicationMenu().items[0]]);
-    Menu.setApplicationMenu(menu);
+
+    // Create the Application's main menu
+    var template = [
+        Menu.getApplicationMenu().items[0]
+        , {
+        label: "Edit",
+        submenu: [
+            { label: "Undo", accelerator: "CmdOrCtrl+Z", selector: "undo:" },
+            { label: "Redo", accelerator: "Shift+CmdOrCtrl+Z", selector: "redo:" },
+            { type: "separator" },
+            { label: "Cut", accelerator: "CmdOrCtrl+X", selector: "cut:" },
+            { label: "Copy", accelerator: "CmdOrCtrl+C", selector: "copy:" },
+            { label: "Paste", accelerator: "CmdOrCtrl+V", selector: "paste:" },
+            { label: "Select All", accelerator: "CmdOrCtrl+A", selector: "selectAll:" }
+        ]}
+    ];
+
+    //const menu = Menu.buildFromTemplate([Menu.getApplicationMenu().items[0]]);
+    Menu.setApplicationMenu(Menu.buildFromTemplate(template));
     mainWin.setMenu(null)
 
 

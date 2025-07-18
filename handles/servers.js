@@ -49,7 +49,7 @@ const handleTestConnection = async (req, res) => {
     logger.debug("Server info ", info)
 
     const version = info.toString().split("\n")[1].replace("redis_version:","").trim();
-    logger.debug("server redis version ", version)
+    logger.debug(server.host, " server redis version ", version)
 
     res.json({
         message: "OK",
@@ -60,9 +60,21 @@ const handleTestConnection = async (req, res) => {
     })
 }
 
-const handleSaveConnection = (req, res) => {
+const handleSaveConnection = async (req, res) => {
     const server = req.body
     const serverList = readFileToJSON(SERVER_FILE, [])
+
+    if ("majorVersion" in server) {
+        try {
+            const redis = await redisConnection(server)
+            const info = await redis.info("Server");
+            const version = info.toString().split("\n")[1].replace("redis_version:","").trim();
+            server.version = version
+            server.majorVersion = parseFloat(version.match(/\d+.\d+/)[0])
+        } catch (e) {
+            logger.error('server.save', e)
+        }
+    }
 
     server.id = uuid()
     serverList.unshift(server)

@@ -7,7 +7,8 @@
     "scripts": {
         "server": "export NODE_ENV=test && node server",
         "start": "electron .",
-        "build": "export NODE_ENV=prod && rm -rf dist && electron-builder build"
+        "build": "export NODE_ENV=prod && rm -rf dist && electron-builder build",
+        "db:test": "export NODE_ENV=test && node ./tests/db.test.js"
     },
     "gitHooks": {
         "pre-commit": "lint-staged"
@@ -60,6 +61,16 @@
         "mac": {
             "target": "dmg",
             "icon": "assets/logo.icns"
+        },
+        "win": {
+            "icon": "assets/logo.png",
+            "target": [{
+                "target": "nsis",
+                "arch": ["x64", "ia32"]
+            }]
+        },
+        "linux": {
+            "icon": "assets/logo.png"
         },
         "directories": {
             "output": "dist"
