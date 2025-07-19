@@ -2,6 +2,8 @@ const { app, ipcMain, BrowserWindow, Menu, screen, shell } = require("electron")
 const logger = require("./lib/logger")
 const server = require("./server")
 const { windowState } = require("./lib/utils");
+const path = require("path");
+const prompt = require("electron-prompt");
 
 
 
@@ -24,13 +26,16 @@ const createWindow = (url) => {
             nodeIntegrationInWorker: false,
             webSecurity: true,
             contextIsolation: true,
+            preload: path.join(__dirname, 'lib/preload.js'),
         }
     });
 
+    if (!app.isPackaged)
+        mainWin.webContents.openDevTools()
 
 
     // Create the Application's main menu
-    var template = [
+    const template = [
         Menu.getApplicationMenu().items[0]
         , {
         label: "Edit",
@@ -62,6 +67,17 @@ const createWindow = (url) => {
             return
         }
         mainWin.maximize();
+    })
+    ipcMain.handle('prompt', function (_, label, _default, title) {
+        return prompt({
+            title,
+            label,
+            width: 400,
+            height: 180,
+            value: _default || '',
+            inputAttrs: { type: 'text' },
+            type: 'input'
+        })
     })
 
     mainWin.on("resized", () => {

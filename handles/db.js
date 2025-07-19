@@ -26,9 +26,9 @@ const findDb = async function(redis,res) {
     res.stream()
 }
 
-const findKeys = async function(server, redis, l) {
+const findKeys = async function(server, redis, filter, l) {
     const
-        scanMatch = server?.advancedSettings?.defaultFilter || "*",
+        scanMatch = filter || server?.advancedSettings?.defaultFilter || "*",
         separator = server?.advancedSettings?.namespaceSeparator || ":",
         scanCount = server?.advancedSettings?.scanUpperLimit || 1000,
         findGroup = (n, g) => {
@@ -90,7 +90,7 @@ const findKeys = async function(server, redis, l) {
 }
 
 const handleDb = async (req,res) => {
-    const {id,database} = req.params
+    const {id,database} = req.params, {filter} = req.query
     const server = svr.findServerById(id)
 
     if (!server)
@@ -115,7 +115,7 @@ const handleDb = async (req,res) => {
     }
 
     if (database != undefined) {
-        await findKeys(server, redis, listener)
+        await findKeys(server, redis, filter, listener)
         return;
     }
 
