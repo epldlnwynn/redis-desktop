@@ -95,7 +95,14 @@ async function startServer() {
     app.use(async (req, res, next) => {
         const accept = req.header("accept")
         console.log('request.log', req.method, req.url, accept)
-        logger.debug(`request.log ${req.method} ${req.url}`)
+        logger.info(`request.log ${req.method} ${req.url}`)
+
+        const start = process.hrtime();
+        res.on('finish', () => {
+            const diff = process.hrtime(start); // 计算耗时
+            const time = diff[0] * 1e3 + diff[1] * 1e-6; // 将时间转换为毫秒
+            logger.info(`${req.method} ${req.url} - ${time.toFixed(2)}ms`);
+        });
 
         next()
     })
