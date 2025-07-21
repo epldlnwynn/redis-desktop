@@ -139,14 +139,14 @@ async function startServer() {
     const onError = er => {
         if (er) {
             if (er.code === "EADDRINUSE") {
-                console.log(`Port ${serverPort} is in use, trying another one...`);
+                logger.info(`Port ${serverPort} is in use, trying another one...`);
                 app.listen(++serverPort, serverHost, onError);
             } else {
-                console.log(er);
+                logger.info(er);
             }
             return;
         }
-        console.log(`服务器启动成功，请访问: http://localhost:${serverPort}`)
+        logger.info(`服务器启动成功，请访问: http://localhost:${serverPort}`)
     }
 
 
@@ -165,7 +165,7 @@ async function main() {
 }
 
 
-if (isTest) {
+if (require.main === module) {
     main().catch(er => {
         console.log('\n\nMain.Error:')
         console.error(er.innerError ? er.innerError : er);
