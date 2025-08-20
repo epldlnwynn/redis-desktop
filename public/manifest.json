@@ -1,12 +1,12 @@
 {
   "vendors~layouts__BasicLayout~p__home__key.js": "/static/scripts/0.b7523526.chunk.js",
   "layouts__BasicLayout.css": "/static/css/1.7dc2b936.chunk.css",
-  "layouts__BasicLayout.js": "/static/scripts/1.8adc6b60.chunk.js",
+  "layouts__BasicLayout.js": "/static/scripts/1.3da89552.chunk.js",
   "p__home__index.css": "/static/css/2.21450228.chunk.css",
   "p__home__index.js": "/static/scripts/2.f6a1ba75.chunk.js",
   "p__home__key.css": "/static/css/3.bb03d5a0.chunk.css",
-  "p__home__key.js": "/static/scripts/3.725b4ae0.chunk.js",
-  "umi.js": "/static/scripts/4.fa1307b8.js",
+  "p__home__key.js": "/static/scripts/3.d5482e9c.chunk.js",
+  "umi.js": "/static/scripts/4.e5930766.js",
   "vendors~p__home__key.js": "/static/scripts/5.877fb06e.chunk.js",
   "index.html": "/index.html",
   "static/.DS_Store": "/static/.DS_Store",
@@ -31,9 +31,9 @@
   "static/images/svg.svg": "/static/images/svg.svg",
   "static/scripts/.DS_Store": "/static/scripts/.DS_Store",
   "static/scripts/0.b7523526.chunk.js.gz": "/static/scripts/0.b7523526.chunk.js.gz",
-  "static/scripts/1.8adc6b60.chunk.js.gz": "/static/scripts/1.8adc6b60.chunk.js.gz",
-  "static/scripts/3.725b4ae0.chunk.js.gz": "/static/scripts/3.725b4ae0.chunk.js.gz",
-  "static/scripts/4.fa1307b8.js.gz": "/static/scripts/4.fa1307b8.js.gz",
+  "static/scripts/1.3da89552.chunk.js.gz": "/static/scripts/1.3da89552.chunk.js.gz",
+  "static/scripts/3.d5482e9c.chunk.js.gz": "/static/scripts/3.d5482e9c.chunk.js.gz",
+  "static/scripts/4.e5930766.js.gz": "/static/scripts/4.e5930766.js.gz",
   "static/scripts/5.877fb06e.chunk.js.gz": "/static/scripts/5.877fb06e.chunk.js.gz",
   "static/scripts/console-ban.min.js": "/static/scripts/console-ban.min.js"
 }

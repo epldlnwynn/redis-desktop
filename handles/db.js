@@ -4,7 +4,7 @@ const Redis = require("../lib/redis-ssh");
 const logger = require("../lib/logger");
 
 
-
+// 查询所有 DB 的缓存数量
 const findDb = async function(redis,res) {
     const info = await redis.info("Keyspace")
 
@@ -26,6 +26,7 @@ const findDb = async function(redis,res) {
     res.stream()
 }
 
+// 查询某个 DB 的所有键基本数据
 const findKeys = async function(server, redis, filter, l) {
     const
         scanMatch = filter || server?.advancedSettings?.defaultFilter || "*",
@@ -45,7 +46,7 @@ const findKeys = async function(server, redis, filter, l) {
         },
         scan = async (data, TYPE) => {
             for await (const keyList of redis.scanIterator({TYPE, MATCH:scanMatch, COUNT:scanCount})) {
-                keyList.sort((a, b) => a.localeCompare(b, 'en-US', {numeric: true}))
+                //keyList.sort((a, b) => a.localeCompare(b, 'en-US', {numeric: true}))
                 data.count = keyList.length + data.count
 
                 for (const key of keyList) {
@@ -72,9 +73,10 @@ const findKeys = async function(server, redis, filter, l) {
                     }
 
                 }
-                l("keyspace", data)
 
             }
+
+            l("keyspace", data)
         }
 
     let data = {index: server.database, count:0, children:[]}
@@ -143,9 +145,14 @@ const handleInvoke = async (req, res) => {
 
     if (method === "delete") {
         if (D?.isGroup == true) {
-            const keys = await redis.keys(D.key.endsWith("*") ? D.key : (D.key + '*'))
-            for (const k of keys)
-                await redis.del(k)
+            const keys = await redis.keys(D.key.endsWith("*") ? D.key : (D.key + '*')), size = 50
+            logger.info("delete", D.key, "size", keys?.length || 0)
+            // 批量删除，每次删除 50 个
+            for (let i = 0; i < keys.length; i += size) {
+                const ks = keys.slice(i, i + size)
+                const r = await redis.del(ks)
+                logger.info("delete", i, r, ks.length)
+            }
         } else {
             await redis.del(D.key)
         }
@@ -175,6 +182,7 @@ const handleInvoke = async (req, res) => {
 
     res.json(R)
 }
+
 
 
 module.exports = {

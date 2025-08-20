@@ -76,8 +76,17 @@ const handleSaveConnection = async (req, res) => {
         }
     }
 
-    server.id = uuid()
-    serverList.unshift(server)
+    // 判断是添加还是修改
+    if ("id" in server) {
+        const index = serverList.findIndex(s => s.id === server.id);
+        if (index > -1) serverList[index] = server;
+        logger.info("update server by id ", server.id, index)
+    } else {
+        server.id = uuid()
+        serverList.unshift(server)
+        logger.info("add server by id ", server.id)
+    }
+
     writeFile(SERVER_FILE, serverList)
 
     res.json({message: "OK", data: server.id})
@@ -92,6 +101,7 @@ const handleDeleteConnection = (req,res) => {
     const {id} = req.params, serverList = readFileToJSON(SERVER_FILE, [])
     const newList = serverList.filter(s => s.id !== id)
     writeFile(SERVER_FILE, newList)
+    logger.info("delete server by id ", id)
     res.json({})
 }
 
